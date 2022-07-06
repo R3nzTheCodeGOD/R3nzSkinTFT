@@ -14,11 +14,11 @@ jobs:
       run: msbuild R3nzSkinTFT/R3nzSkinTFT.vcxproj /p:Platform=x86 /p:Configuration=RiotGamesServers
 
     R3nzSkinTFT-Injector:
-    runs-on: windows-2019
-    steps:
-    - uses: actions/checkout@v2
-    - name: Add msbuild to PATH
-      uses: microsoft/setup-msbuild@v1.1
-    - name: Build
-      shell: cmd
-      run: msbuild R3nzSkinTFT_Injector/R3nzSkinTFT_Injector.vcxproj /p:Platform=x86 /p:Configuration=RiotGamesServers
+      runs-on: windows-2019
+      steps:
+      - uses: actions/checkout@v2
+      - name: Add msbuild to PATH
+        uses: microsoft/setup-msbuild@v1.1
+      - name: Build
+        shell: cmd
+        run: msbuild R3nzSkinTFT_Injector/R3nzSkinTFT_Injector.vcxproj /p:Platform=x86 /p:Configuration=RiotGamesServers
