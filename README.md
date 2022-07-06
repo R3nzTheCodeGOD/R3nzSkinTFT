@@ -1,4 +1,4 @@
-﻿<div align="center">
+<div align="center">
 
 [![C++](https://img.shields.io/badge/Language-C%2B%2B-%23f34b7d.svg?style=plastic)](https://en.wikipedia.org/wiki/C%2B%2B)
 [![LOL](https://img.shields.io/badge/Game-Teamfight%20Tactics-445fa5.svg?style=plastic)](https://teamfighttactics.leagueoflegends.com/)
@@ -7,8 +7,10 @@
 [![License](https://img.shields.io/github/license/R3nzTheCodeGOD/R3nzSkinTFT.svg?style=plastic)](LICENSE)
 [![Issues](https://img.shields.io/github/issues/R3nzTheCodeGOD/R3nzSkinTFT.svg?style=plastic)](https://github.com/R3nzTheCodeGOD/R3nzSkin/issues)
 ![Windows](https://github.com/R3nzTheCodeGOD/R3nzSkinTFT/workflows/Windows/badge.svg?branch=main&event=push)
+
 # **R3nzSkinTFT**
-<img src="https://cdn.discordapp.com/attachments/748413086083317811/993530230234959922/R3nzSkinTFT.gif">
+
+![R3nzSkinTFT](https://user-images.githubusercontent.com/58574988/177463481-177c057d-c5a7-4f08-b1e5-4a1f910b81d6.gif)
 
 `R3nzSkinTFT` is internal skin changer for Teamfight Tactics.
 </div>
