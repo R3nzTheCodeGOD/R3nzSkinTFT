@@ -1,0 +1,5 @@
+*.asm linguist-language=Assembly
+*.h linguist-language=Assembly
+*.hpp linguist-language=C++
+*.c linguist-language=C
+*.cpp linguist-language=C++
