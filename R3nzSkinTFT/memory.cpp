@@ -90,7 +90,6 @@ void Memory::update(bool gameClient) noexcept
 	} else {
 		this->localPlayer = *reinterpret_cast<AIBaseCommon**>(this->getLeagueModule() + offsets::global::LocalPlayer);
 		this->materialRegistry = reinterpret_cast<FnMaterialRegistryGetSingletonPtr>(this->getLeagueModule() + offsets::functions::FnRiot__Renderer__MaterialRegistry__GetSingletonPtr)();
-		this->getCharacterPackage = reinterpret_cast<FnGetCharacterPackage>(this->getLeagueModule() + offsets::functions::FnCharacterData__GetCharacterPackage);
 		this->d3dDevice = *reinterpret_cast<IDirect3DDevice9**>(this->materialRegistry + offsets::MaterialRegistry::D3DDevice);
 		this->swapChain = *reinterpret_cast<IDXGISwapChain**>(this->materialRegistry + offsets::MaterialRegistry::SwapChain);
 	}

@@ -26,14 +26,12 @@ public:
 	[[nodiscard]] inline auto getRiotWindow() const noexcept { return *reinterpret_cast<HWND*>(this->getLeagueModule() + offsets::global::Riot__g_window); }
 
 	using FnMaterialRegistryGetSingletonPtr = std::uintptr_t(__stdcall*)();
-	using FnGetCharacterPackage = std::uintptr_t(__cdecl*)(std::string&, std::uint32_t);
 
 	GameClient* client;
 	AIBaseCommon* localPlayer;
 	std::uintptr_t materialRegistry;
 	IDirect3DDevice9* d3dDevice;
 	IDXGISwapChain* swapChain;
-	FnGetCharacterPackage getCharacterPackage;
 private:
 	void update(bool gameClient = true) noexcept;
 

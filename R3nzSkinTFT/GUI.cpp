@@ -27,13 +27,16 @@ void GUI::render() noexcept
 	{
 		const auto& vector{ *static_cast<std::vector<SkinDatabase::PetsInfo>*>(vec) };
 		if (idx < 0 || idx > static_cast<std::int32_t>(vector.size())) return false;
-		*out_text = idx == 0 ? "Default" : vector.at(idx - 1).skinName.c_str();
+		*out_text = idx == 0 ? "Default" : vector.at(idx - 1).skinName;
 		return true;
 	};
 
 	std::call_once(this->changeSkin, [&]() noexcept -> void {
+		if (cheatManager.config->currentComboSkinIndex > 0 && cheatManager.config->curretSkinId > cheatManager.database->pets[cheatManager.config->currentComboSkinIndex - 1].skinCount)
+			cheatManager.config->curretSkinId = 1;
+
 		if (cheatManager.config->currentComboSkinIndex > 0)
-			player->changeSkin(cheatManager.database->pets[cheatManager.config->currentComboSkinIndex - 1].modelName.c_str(), cheatManager.config->curretSkinId);
+			player->changeSkin(cheatManager.database->pets[cheatManager.config->currentComboSkinIndex - 1].modelName, cheatManager.config->curretSkinId);
 	});
 
 	ImGui::Begin("R3nzSkin TFT", nullptr, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse | ImGuiWindowFlags_AlwaysAutoResize);
@@ -44,7 +47,7 @@ void GUI::render() noexcept
 			
 			ImGui::SliderInt("Current Pet SkinId", &cheatManager.config->curretSkinId, 1, cheatManager.database->pets[cheatManager.config->currentComboSkinIndex - 1].skinCount);
 			if (ImGui::Button("Change Pet Skin"))
-				player->changeSkin(cheatManager.database->pets[cheatManager.config->currentComboSkinIndex - 1].modelName.c_str(), cheatManager.config->curretSkinId);
+				player->changeSkin(cheatManager.database->pets[cheatManager.config->currentComboSkinIndex - 1].modelName, cheatManager.config->curretSkinId);
 			footer();
 			ImGui::EndTabItem();
 		}

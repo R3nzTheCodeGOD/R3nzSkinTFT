@@ -54,6 +54,9 @@ void Config::load() noexcept
 	this->currentComboSkinIndex = config_json.value("currentComboSkinIndex", 0);
 	this->curretSkinId = config_json.value("curretSkinId", 1);
 
+	if (this->curretSkinId <= 0)
+		this->curretSkinId = 1;
+
 	in.close();
 }
 

@@ -187,15 +187,14 @@ namespace d3d_vtable {
 	static void render(void* device, bool is_d3d11 = false) noexcept
 	{
 		static const auto client{ cheatManager.memory->client };
-		if (client && client->gameState == GGameState_s::Running) {
+		if (client && client->gameState == GGameState_s::Running && cheatManager.gui->is_open) {
 			if (is_d3d11)
 				::ImGui_ImplDX11_NewFrame();
 			else
 				::ImGui_ImplDX9_NewFrame();
 			::ImGui_ImplWin32_NewFrame();
 			ImGui::NewFrame();
-			if (cheatManager.gui->is_open)
-				cheatManager.gui->render();
+			cheatManager.gui->render();
 			ImGui::EndFrame();
 			ImGui::Render();
 
