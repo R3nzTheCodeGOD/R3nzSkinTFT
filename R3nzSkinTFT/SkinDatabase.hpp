@@ -25,6 +25,7 @@ public:
 		{ "PetBuglet",			"Flutterbug"	},
 		{ "PetChibiEkko",		"Chibi Ekko"	},
 		{ "PetChibiJinx",		"Chibi Jinx"	},
+		{ "PetChibiKaisa",		"Chibi Kai'Sa"	},
 		{ "PetChibiLeeSin",		"Chibi Lee Sin"	},
 		{ "PetChibiVi",			"Chibi Vi"		},
 		{ "PetChibiYasuo",		"Chibi Yasuo"	},
