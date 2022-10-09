@@ -85,7 +85,7 @@ private:
 		},
 		{
 			{
-				"83 EC 74 53 55 56 57 8B F9 8B 47 04 39 07"
+				"E8 ? ? ? ? 8B 74 24 ? 85 F6 74 ? 8B C7 F0 0F C1 46 ? 75 ? 8B 06 8B CE FF 10 F0 0F C1 7E ? 4F 75 ? 8B 06 8B CE FF 50 ? 5F 5E 5B 83 C4 14 C2 44 00"
 			}, true, false, 0, &offsets::functions::FnCharacterDataStack__Push
 		},
 		{
