@@ -23,6 +23,7 @@ public:
 		{ "PetBallDragon",		"Poggless"		},
 		{ "PetBellSwayer",		"Bell Swayer"	},
 		{ "PetBuglet",			"Flutterbug"	},
+		{ "PetChibiAshe",		"Chibi Ashe"	},
 		{ "PetChibiEkko",		"Chibi Ekko"	},
 		{ "PetChibiJinx",		"Chibi Jinx"	},
 		{ "PetChibiKaisa",		"Chibi Kai'Sa"	},
