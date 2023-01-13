@@ -23,7 +23,9 @@ public:
 		{ "PetBallDragon",		"Poggless"		},
 	//	{ "PetBaron",			"Baron"			}, // model crashes the game for now but skin 3 works fine ( Wait for Riot to fix this issue. )
 		{ "PetBellSwayer",		"Bell Swayer"	},
+		{ "PetBunny",       	"Bun Bun"   	},
 		{ "PetBuglet",			"Flutterbug"	},
+		{ "PetChibiAnnie",		"Chibi Annie"	},
 		{ "PetChibiAshe",		"Chibi Ashe"	},
 		{ "PetChibiEkko",		"Chibi Ekko"	},
 		{ "PetChibiJinx",		"Chibi Jinx"	},
