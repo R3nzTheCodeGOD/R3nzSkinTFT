@@ -6,6 +6,8 @@
 #include <d3d11.h>
 
 #include "Offsets.hpp"
+#include "RetSpoofInvoker.hpp"
+
 #include "SDK/AIBaseCommon.hpp"
 #include "SDK/GameClient.hpp"
 #include "SDK/Pad.hpp"
@@ -22,18 +24,27 @@ public:
 class Memory {
 public:
 	void Search(bool gameClient = true) noexcept;
-	[[nodiscard]] inline auto getLeagueModule() const noexcept { return reinterpret_cast<std::uintptr_t>(::GetModuleHandle(nullptr)); }
-	[[nodiscard]] inline auto getRiotWindow() const noexcept { return *reinterpret_cast<HWND*>(this->getLeagueModule() + offsets::global::Riot__g_window); }
+	
+	const char* translateString(const char* string) const noexcept
+	{
+		return invoker.invokeCdecl<const char*>(this->moduleBase + offsets::functions::FnTranlateString, string);
+	}
 
-	using FnMaterialRegistryGetSingletonPtr = std::uintptr_t(__stdcall*)();
+	std::uintptr_t getCharacterPackage(std::string& model, const std::int32_t idx) const noexcept
+	{
+		return *reinterpret_cast<std::uintptr_t*>(invoker.invokeCdecl<std::uintptr_t, std::string&>(this->moduleBase + offsets::functions::FnCharacterData__GetCharacterPackage, model, idx) + 0x34);
+	}
 
+	std::uintptr_t moduleBase;
+	HWND riotWindow;
 	GameClient* client;
 	AIBaseCommon* localPlayer;
-	std::uintptr_t materialRegistry;
 	IDirect3DDevice9* d3dDevice;
 	IDXGISwapChain* swapChain;
 private:
 	void update(bool gameClient = true) noexcept;
+
+	std::uintptr_t materialRegistry;
 
 	std::vector<offset_signature> gameClientSig
 	{
@@ -42,6 +53,11 @@ private:
 				"A1 ? ? ? ? 68 ? ? ? ? 8B 70 08 E8 ? ? ? ?",
 				"A1 ? ? ? ? 56 83 78 08 00 75 ?"
 			}, true, true, 0, &offsets::global::GameClient
+		},
+		{
+			{
+				"FF 23 80 7A ? ? 75 ? 66 8B 9D ? ? ? ?"
+			}, true, false, 0, &offsets::global::retSpoofGadget
 		}
 	};
 
@@ -93,6 +109,12 @@ private:
 				"E8 ? ? ? ? 83 C4 08 50 FF 74 24 44",
 				"E8 ? ? ? ? F3 0F 10 44 24 ? 83 C4 08 C1 ED 1F"
 			}, true, false, 0, &offsets::functions::FnCharacterData__GetCharacterPackage
+		},
+		{
+			{
+				"E8 ? ? ? ? 0F B6 0B 83 C4 04",
+				"E8 ? ? ? ? 83 C4 04 8D 4E 0C 8B D0 80 38 00 5E 74 0C"
+			}, true, false, 0, &offsets::functions::FnTranlateString
 		}
 	};
 };

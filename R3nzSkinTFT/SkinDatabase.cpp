@@ -5,18 +5,24 @@
 #include "SkinDatabase.hpp"
 #include "offsets.hpp"
 
-std::uint32_t SkinDatabase::getSkinsLenForModel(std::string model) noexcept
+std::int32_t SkinDatabase::getSkinsLenForModel(std::string model, const std::int32_t startIdx) const noexcept
 {
-	static const auto getCharacterPackage{ reinterpret_cast<std::uintptr_t(__cdecl*)(std::string&,std::uint32_t)>(cheatManager.memory->getLeagueModule() + offsets::functions::FnCharacterData__GetCharacterPackage) };
-	const auto defaultSkinData{ *reinterpret_cast<std::uintptr_t*>(getCharacterPackage(model, 0u) + 0x34) };
-	for (auto skinsLen{ 1u };; ++skinsLen)
-		if (*reinterpret_cast<std::uintptr_t*>(getCharacterPackage(model, skinsLen) + 0x34) == defaultSkinData)
-			return skinsLen - 1u;
+	const auto defaultSkinData{ cheatManager.memory->getCharacterPackage(model, 0) };
+	for (std::int32_t skinsLen{ startIdx };; ++skinsLen)
+		if (cheatManager.memory->getCharacterPackage(model, skinsLen) == defaultSkinData)
+			return skinsLen - 1;
 }
 
 void SkinDatabase::update() noexcept
 {
-	// automatically update number of skins
-	for (auto& pet : this->pets)
-		pet.skinCount = this->getSkinsLenForModel(pet.modelName);
+	for (auto& pet : this->pets) {
+		if (std::holds_alternative<std::int32_t>(pet.skinIds)) {
+			pet.skinIds = this->getSkinsLenForModel(pet.modelName, std::get<std::int32_t>(pet.skinIds));
+		} else if (std::holds_alternative<std::pair<std::int32_t, std::int32_t>>(pet.skinIds)) {
+			const auto pair{ std::get<std::pair<std::int32_t, std::int32_t>>(pet.skinIds) };
+			pet.skinIds = std::make_pair(pair.first, this->getSkinsLenForModel(pet.modelName, pair.first));
+		}
+
+		pet.skinName = cheatManager.memory->translateString(pet.skinName);
+	}
 }

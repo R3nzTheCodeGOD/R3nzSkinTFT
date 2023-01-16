@@ -3,69 +3,227 @@
 #include <cstdint>
 #include <string>
 #include <vector>
+#include <variant>
+#include <utility>
 
 class SkinDatabase {
 public:
 	class PetsInfo {
 	public:
 		const char* modelName;
-		const char* skinName;
-		std::uint32_t skinCount{ 1 };
+		const char* skinName{ "" };
+		std::variant<std::int32_t, std::pair<std::int32_t, std::int32_t>> skinIds{ 1 };
 	};
 
 	void update() noexcept;
-	std::uint32_t getSkinsLenForModel(std::string model) noexcept;
+	std::int32_t getSkinsLenForModel(std::string model, const std::int32_t startIdx) const noexcept;
  	
-	// PetModelName, PetName, PetSkinCount(autoupdate)
+	// PetModelName, PetName(auto translate), PetSkinCount(auto update)
 	std::vector<PetsInfo> pets{
-		{ "PetAkaliDragon",		"Ossia"			},
-		{ "PetAoShin",			"Ao Shin"		},
-		{ "PetBallDragon",		"Poggless"		},
-	//	{ "PetBaron",			"Baron"			}, // model crashes the game for now but skin 3 works fine ( Wait for Riot to fix this issue. )
-		{ "PetBellSwayer",		"Bell Swayer"	},
-		{ "PetBuglet",			"Flutterbug"	},
-		{ "PetChibiAshe",		"Chibi Ashe"	},
-		{ "PetChibiEkko",		"Chibi Ekko"	},
-		{ "PetChibiJinx",		"Chibi Jinx"	},
-		{ "PetChibiKaisa",		"Chibi Kai'Sa"	},
-		{ "PetChibiLeeSin",		"Chibi Lee Sin"	},
-		{ "PetChibiLux",		"Chibi Lux"		},
-		{ "PetChibiVi",			"Chibi Vi"		},
-		{ "PetChibiYasuo",		"Chibi Yasuo"	},
-		{ "PetChoncc",			"Choncc"		},
-		{ "PetCreepyCat",		"Whisker"		},
-		{ "PetDowsie",			"Dowsie"		},
-		{ "PetDsSquid",			"Squink"		},
-		{ "PetDsSwordGuy",		"Abyssia"		},
-		{ "PetDsWhale",			"Starmaw"		},
-		{ "PetDuckBill",		"Duckbill"		},
-		{ "PetElegantDragon",	"Prancie"		},
-		{ "PetFairy",			"Nixie"			},
-		{ "PetFenroar",			"Fenroar"		},
-		{ "PetGargoyle",		"Craggle"		},
-		{ "PetGemTiger",		"Protector"		},
-		{ "PetGhosty",			"Hauntling"		},
-		{ "PetGloop",			"Gloop"			},
-		{ "PetGriffin",			"Silverwing"	},
-		{ "PetGrumpyLion",		"Furyhorn"		},
-		{ "PetHextechBirb",		"Tocker"		},
-		{ "PetJawDragon",		"Burno"			},
-		{ "PetKoala",			"Grizzle"		},
-		{ "PetMiner",			"Molediver"		},
-		{ "PetMiniGolem",		"Runespirit"	},
-		{ "PetNimbleFoot",		"Nimblefoot"	},
-		{ "PetPegasus",			"Lightcharger"	},
-		{ "PetPenguKnight",		"Featherknight"	},
-		{ "PetPixiMander",		"Piximander"	},
-		{ "PetPupDragon",		"Bungo"			},
-		{ "PetQiyanaDog",		"QiQi"			},
-		{ "PetSennaBunny",		"Melisma"		},
-		{ "PetSgCat",			"Dango"			},
-		{ "PetSgPig",			"Fuwa"			},
-		{ "PetSgShisa",			"Shisa"			},
-		{ "PetSpiritFox",		"Hushtail"		},
-		{ "PetTftAvatar",		"River Sprite"	},
-		{ "PetTurtle",			"Paddlemar"		},
-		{ "PetUmbra",			"Umbra"			}
+		{
+			"PetAkaliDragon",
+			"companion_species_name_akalidragon"
+		},
+		{
+			"PetAoShin",
+			"companion_aoshin_default_name"
+		},
+		{
+			"PetBallDragon",
+			"companion_species_name_balldragon"
+		},
+		{
+			"PetBaron",
+			"companion_species_name_baron",
+			std::make_pair(3, 0)
+		},
+		{
+			"PetBellSwayer",
+			"companion_bellswayer_default_name"
+		},
+		{
+			"PetBuglet",
+			"companion_species_name_buglet"
+		},
+		{
+			"PetBunny",
+			"companion_species_name_bunny"
+		},
+		{
+			"PetChibiAnnie",
+			"companion_species_name_chibiannie"
+		},	
+		{
+			"PetChibiAshe",
+			"companion_species_name_chibiashe"
+		},
+		{
+			"PetChibiEkko",
+			"companion_species_name_chibiekko"
+		},
+		{
+			"PetChibiJinx",
+			"companion_species_name_chibijinx"
+		},
+		{
+			"PetChibiKaisa",
+			"companion_species_name_chibikaisa"
+		},
+		{
+			"PetChibiLeeSin",
+			"companion_species_name_chibileesin"
+		},
+		{
+			"PetChibiLux",
+			"companion_species_name_chibilux"
+		},
+		{
+			"PetChibiVi",
+			"companion_species_name_chibivi"
+		},
+		{
+			"PetChibiYasuo",
+			"companion_species_name_chibiyasuo"
+		},
+		{
+			"PetChoncc",
+			"companion_choncc_default_name"
+		},
+		{
+			"PetCreepyCat",
+			"companion_species_name_creepycat"
+		},
+		{
+			"PetDowsie",
+			"companion_species_name_dowsie"
+		},
+		{
+			"PetDsSquid",
+			"companion_species_name_dssquid"
+		},
+		{
+			"PetDsSwordGuy",
+			"companion_species_name_dsswordguy"
+		},
+		{
+			"PetDsWhale",
+			"companion_species_name_dswhale"
+		},
+		{
+			"PetDuckBill",
+			"companion_species_name_duckbill"
+		},
+		{
+			"PetElegantDragon",
+			"companion_species_name_elegantdragon"
+		},
+		{
+			"PetFairy",
+			"companion_fairy_default_name"
+		},
+		{
+			"PetFenroar",
+			"companion_species_name_fenroar"
+		},
+		{
+			"PetGargoyle",
+			"companion_species_name_gargoyle"
+		},
+		{
+			"PetGemTiger",
+			"companion_species_name_gemtiger"
+		},
+		{
+			"PetGhosty",
+			"companion_species_name_ghost"
+		},
+		{
+			"PetGloop",
+			"companion_species_name_gloop"
+		},
+		{
+			"PetGriffin",
+			"companion_species_name_silverwing"
+		},
+		{
+			"PetGrumpyLion",
+			"companion_species_name_grumpylion"
+		},
+		{
+			"PetHextechBirb",
+			"companion_species_name_hextechbirb"
+		},
+		{
+			"PetJawDragon",
+			"companion_species_name_jawdragon"
+		},
+		{
+			"PetKoala",
+			"companion_species_name_koala"
+		},
+		{
+			"PetMiner",
+			"companion_species_name_miner"
+		},
+		{
+			"PetMiniGolem",
+			"companion_species_name_minigolem"
+		},
+		{
+			"PetNimbleFoot",
+			"companion_species_name_nimblefoot"
+		},
+		{
+			"PetPegasus",
+			"companion_pegasus_default_name"
+		},
+		{
+			"PetPenguKnight",
+			"companion_species_name_penguknight"
+		},
+		{
+			"PetPixiMander",
+			"companion_species_name_piximander"
+		},
+		{
+			"PetPupDragon",
+			"companion_species_name_pupdragon"
+		},
+		{
+			"PetQiyanaDog",
+			"companion_species_name_qiyanadog"
+		},
+		{
+			"PetSennaBunny",
+			"companion_species_name_sennabunny"
+		},
+		{
+			"PetSgCat",
+			"companion_species_name_sgcat"
+		},
+		{
+			"PetSgPig",
+			"companion_species_name_sgpig"
+		},
+		{
+			"PetSgShisa",
+			"companion_species_name_sgshisa"
+		},
+		{
+			"PetSpiritFox",
+			"companion_species_name_spiritfox"
+		},
+		{
+			"PetTftAvatar",
+			"companion_species_name_TFT_Avatar"
+		},
+		{
+			"PetTurtle",
+			"companion_species_name_turtle"
+		},
+		{
+			"PetUmbra",
+			"companion_umbra_default_name"
+		}
 	};
 };

@@ -10,5 +10,5 @@ public:
 	void render() noexcept;
 private:
 	std::once_flag changeSkin;
-	std::string manualModel{ "TFTDebug_DummyMelee" };
+	std::string model{ "TFTDebug_DummyMelee" };
 };

@@ -103,6 +103,7 @@
     <ClInclude Include="GUI.hpp" />
     <ClInclude Include="Offsets.hpp" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="RetSpoofInvoker.hpp" />
     <ClInclude Include="SDK\AIBaseCommon.hpp" />
     <ClInclude Include="SDK\AString.hpp" />
     <ClInclude Include="SDK\CharacterDataStack.hpp" />
@@ -114,6 +115,7 @@
     <ClInclude Include="SkinDatabase.hpp" />
     <ClInclude Include="Utils.hpp" />
     <ClInclude Include="vmt_smart_hook.hpp" />
+    <ClInclude Include="x86RetSpoof.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="R3nzSkinTFT.rc" />

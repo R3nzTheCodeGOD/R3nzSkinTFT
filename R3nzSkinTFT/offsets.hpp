@@ -11,6 +11,7 @@ namespace offsets {
 		inline std::uint32_t LocalPlayer{ 0 };
 		inline std::uint32_t Riot__g_window{ 0 };
 		inline std::uint32_t GameClient{ 0 };
+		inline std::uint32_t retSpoofGadget{ 0 };
 	};
 
 	namespace AIBaseCommon {
@@ -26,5 +27,6 @@ namespace offsets {
 		inline std::uint32_t FnRiot__Renderer__MaterialRegistry__GetSingletonPtr{ 0 };
 		inline std::uint32_t FnCharacterData__GetCharacterPackage{ 0 };
 		inline std::uint32_t FnCharacterDataStack__Push{ 0 };
+		inline std::uint32_t FnTranlateString{ 0 };
 	};
 };

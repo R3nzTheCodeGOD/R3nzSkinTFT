@@ -86,12 +86,13 @@
 void Memory::update(bool gameClient) noexcept
 {
 	if (gameClient) {
-		this->client = *reinterpret_cast<GameClient**>(this->getLeagueModule() + offsets::global::GameClient);
+		this->client = *reinterpret_cast<GameClient**>(this->moduleBase + offsets::global::GameClient);
 	} else {
-		this->localPlayer = *reinterpret_cast<AIBaseCommon**>(this->getLeagueModule() + offsets::global::LocalPlayer);
-		this->materialRegistry = reinterpret_cast<FnMaterialRegistryGetSingletonPtr>(this->getLeagueModule() + offsets::functions::FnRiot__Renderer__MaterialRegistry__GetSingletonPtr)();
+		this->localPlayer = *reinterpret_cast<AIBaseCommon**>(this->moduleBase + offsets::global::LocalPlayer);
+		this->materialRegistry = invoker.invokeStdcall<std::uintptr_t>(this->moduleBase + offsets::functions::FnRiot__Renderer__MaterialRegistry__GetSingletonPtr);
 		this->d3dDevice = *reinterpret_cast<IDirect3DDevice9**>(this->materialRegistry + offsets::MaterialRegistry::D3DDevice);
 		this->swapChain = *reinterpret_cast<IDXGISwapChain**>(this->materialRegistry + offsets::MaterialRegistry::SwapChain);
+		this->riotWindow = *reinterpret_cast<HWND*>(this->moduleBase + offsets::global::Riot__g_window);
 	}
 }
 
@@ -100,7 +101,8 @@ void Memory::Search(bool gameClient) noexcept
 	using namespace std::chrono_literals;
 
 	try {
-		const auto base{ this->getLeagueModule() };
+		this->moduleBase = reinterpret_cast<std::uintptr_t>(::GetModuleHandle(nullptr));
+		const auto base{ this->moduleBase };
 		const auto& signatureToSearch{ (gameClient ? this->gameClientSig : this->sigs) };
 
 		for (const auto& sig : signatureToSearch)

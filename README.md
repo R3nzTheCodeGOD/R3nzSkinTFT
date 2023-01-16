@@ -20,15 +20,17 @@
 - Change skins anytime and unlimited times in single game.
 - <a href="https://github.com/ocornut/imgui">ImGui</a> for in-game drawing.
 - <a href="https://github.com/nlohmann/json">JSON</a> based configuration saving & loading
+- Using <a href="https://github.com/danielkrupinski/x86RetSpoof">x86RetSpoof</a>, League functions are called with spoofed return address
 
 # Building
 1. Clone the source with `git clone --recursive https://github.com/R3nzTheCodeGOD/R3nzSkinTFT.git`
-2. Build in Visual Studio 2017/19 with configuration "RiotGamesServers"
+2. Build in Visual Studio with configuration "RiotGamesServers"
 
 # Usage
-1. Use `R3nzSkinTFT_Injector` or inject the resulting DLL into the game yourself.
+1. Compile source or <a href="https://github.com/R3nzTheCodeGOD/R3nzSkinTFT/releases/latest">download</a> compiled version.
+2. Use `R3nzSkinTFT_Injector` or inject the resulting DLL into the game yourself.
    - *Administrator* privilege may be needed if failed to inject.
-2. Press <kbd>Insert</kbd> to bring up the menu.
-3. Select skin for you.
+3. Press <kbd>Insert</kbd> to bring up the menu.
+4. Select skin for you.
 
 [Click](https://github.com/R3nzTheCodeGOD/R3nzSkin) for League of legends skin changer

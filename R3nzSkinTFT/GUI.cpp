@@ -2,6 +2,8 @@
 #include <string>
 #include <mutex>
 #include <vector>
+#include <variant>
+#include <tuple>
 
 #include "imgui/imgui.h"
 #include "imgui/imgui_stdlib.h"
@@ -16,7 +18,7 @@ inline void footer() noexcept
 {
 	ImGui::Separator();
 	ImGui::textUnformattedCentered((std::string("Last Build: ") + __DATE__ + " - " + __TIME__).c_str());
-	ImGui::textUnformattedCentered("Copyright (C) 2022 R3nzTheCodeGOD");
+	ImGui::textUnformattedCentered("Copyright (C) 2022-2023 R3nzTheCodeGOD");
 }
 
 void GUI::render() noexcept
@@ -32,7 +34,14 @@ void GUI::render() noexcept
 	};
 
 	std::call_once(this->changeSkin, [&]() noexcept -> void {
-		if (cheatManager.config->currentComboSkinIndex > 0 && cheatManager.config->curretSkinId > cheatManager.database->pets[cheatManager.config->currentComboSkinIndex - 1].skinCount)
+		const auto& pet{ cheatManager.database->pets[cheatManager.config->currentComboSkinIndex - 1] };
+		std::int32_t count{ 0 };
+		if (std::holds_alternative<std::int32_t>(pet.skinIds))
+			count = std::get<std::int32_t>(pet.skinIds);
+		else if (std::holds_alternative<std::pair<std::int32_t, std::int32_t>>(pet.skinIds))
+			count = std::get<std::pair<std::int32_t, std::int32_t>>(pet.skinIds).second;
+
+		if (cheatManager.config->currentComboSkinIndex > 0 && cheatManager.config->curretSkinId > count)
 			cheatManager.config->curretSkinId = 1;
 
 		if (cheatManager.config->currentComboSkinIndex > 0)
@@ -42,10 +51,22 @@ void GUI::render() noexcept
 	ImGui::Begin("R3nzSkin TFT", nullptr, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse | ImGuiWindowFlags_AlwaysAutoResize);
 	if (ImGui::BeginTabBar("TabBar", ImGuiTabBarFlags_Reorderable | ImGuiTabBarFlags_FittingPolicyScroll | ImGuiTabBarFlags_NoTooltip)) {
 		if (ImGui::BeginTabItem("Skin Changer")) {
-			if (ImGui::Combo("Current Pet", &cheatManager.config->currentComboSkinIndex, vectorGetter, static_cast<void*>(&cheatManager.database->pets), cheatManager.database->pets.size() + 1))
-				cheatManager.config->curretSkinId = 1;
-			
-			ImGui::SliderInt("Current Pet SkinId", &cheatManager.config->curretSkinId, 1, cheatManager.database->pets[cheatManager.config->currentComboSkinIndex - 1].skinCount);
+			if (ImGui::Combo("Current Pet", &cheatManager.config->currentComboSkinIndex, vectorGetter, static_cast<void*>(&cheatManager.database->pets), cheatManager.database->pets.size() + 1)) {
+				const auto& pet{ cheatManager.database->pets[cheatManager.config->currentComboSkinIndex - 1] };
+				if (std::holds_alternative<std::int32_t>(pet.skinIds))
+					cheatManager.config->curretSkinId = 1;
+				else if (std::holds_alternative<std::pair<std::int32_t, std::int32_t>>(pet.skinIds))
+					cheatManager.config->curretSkinId = std::get<std::pair<std::int32_t, std::int32_t>>(pet.skinIds).first;
+			}
+
+			const auto& pet{ cheatManager.database->pets[cheatManager.config->currentComboSkinIndex - 1] };
+			if (std::holds_alternative<std::int32_t>(pet.skinIds)) {
+				ImGui::SliderInt("Current Pet SkinId", &cheatManager.config->curretSkinId, 1, std::get<std::int32_t>(pet.skinIds));
+			} else if (std::holds_alternative<std::pair<std::int32_t, std::int32_t>>(pet.skinIds)) {
+				const auto pair{ std::get<std::pair<std::int32_t, std::int32_t>>(pet.skinIds) };
+				ImGui::SliderInt("Current Pet SkinId", &cheatManager.config->curretSkinId, pair.first, pair.second);
+			}
+
 			if (ImGui::Button("Change Pet Skin"))
 				player->changeSkin(cheatManager.database->pets[cheatManager.config->currentComboSkinIndex - 1].modelName, cheatManager.config->curretSkinId);
 			footer();
@@ -58,10 +79,10 @@ void GUI::render() noexcept
 		}
 
 		if (ImGui::BeginTabItem("Extra")) {
-			ImGui::InputText("##pushmanualmodel", &this->manualModel);
+			ImGui::InputText("##push_model", &this->model);
 			ImGui::SameLine();
-			if (ImGui::Button("Push Manual Model"))
-				player->changeSkin(this->manualModel.c_str(), 1);
+			if (ImGui::Button("Push Model"))
+				player->changeSkin(this->model.c_str(), 1);
 			ImGui::Separator();
 			ImGui::InputText("Change Nick", player->getNamePtr());
 			ImGui::Separator();

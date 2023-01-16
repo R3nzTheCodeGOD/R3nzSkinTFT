@@ -215,12 +215,12 @@ namespace R3nzSkinInjector {
 			this->linkLabel1->Cursor = System::Windows::Forms::Cursors::Hand;
 			this->linkLabel1->LinkBehavior = System::Windows::Forms::LinkBehavior::NeverUnderline;
 			this->linkLabel1->LinkColor = System::Drawing::Color::Silver;
-			this->linkLabel1->Location = System::Drawing::Point(34, 274);
+			this->linkLabel1->Location = System::Drawing::Point(18, 274);
 			this->linkLabel1->Name = L"linkLabel1";
-			this->linkLabel1->Size = System::Drawing::Size(207, 14);
+			this->linkLabel1->Size = System::Drawing::Size(235, 14);
 			this->linkLabel1->TabIndex = 11;
 			this->linkLabel1->TabStop = true;
-			this->linkLabel1->Text = L"Copyright (c) 2022 R3nzTheCodeGOD";
+			this->linkLabel1->Text = L"Copyright (c) 2022-2023 R3nzTheCodeGOD";
 			this->linkLabel1->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
 			this->linkLabel1->LinkClicked += gcnew System::Windows::Forms::LinkLabelLinkClickedEventHandler(this, &R3nzUI::linkLabel1_LinkClicked);
 			// 
@@ -257,6 +257,7 @@ namespace R3nzSkinInjector {
 			this->groupBox4->PerformLayout();
 			this->ResumeLayout(false);
 			this->PerformLayout();
+
 		}
 #pragma endregion
 	private:

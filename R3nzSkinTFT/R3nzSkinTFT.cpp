@@ -1,6 +1,7 @@
 #pragma warning(disable : 6387 4715)
 
 #include <Windows.h>
+#include <array>
 #include <clocale>
 #include <chrono>
 #include <cstdint>
@@ -12,6 +13,7 @@
 #include "GUI.hpp"
 #include "Hooks.hpp"
 #include "Memory.hpp"
+#include "RetSpoofInvoker.hpp"
 
 #include "SDK/GameState.hpp"
 
@@ -47,6 +49,10 @@ static void WINAPI DllAttach([[maybe_unused]] LPVOID lp) noexcept
 				break;
 	}
 
+	const auto gadget{ *reinterpret_cast<std::array<std::uint8_t, 2>*>(cheatManager.memory->moduleBase + offsets::global::retSpoofGadget)};
+	cheatManager.logger->addLog("[+] Gadget: 0x%X 0x%X\n", gadget.at(0), gadget.at(1));
+	invoker.init(cheatManager.memory->moduleBase + offsets::global::retSpoofGadget);
+
 	std::this_thread::sleep_for(500ms);
 	cheatManager.memory->Search(false);
 	std::this_thread::sleep_for(500ms);
@@ -62,7 +68,7 @@ static void WINAPI DllAttach([[maybe_unused]] LPVOID lp) noexcept
 	::ExitProcess(0u);
 }
 
-BOOL APIENTRY DllMain(HMODULE hModule, DWORD reason, LPVOID reserved)
+__declspec(safebuffers) BOOL APIENTRY DllMain(HMODULE hModule, DWORD reason, LPVOID reserved)
 {
 	if (reason == DLL_PROCESS_ATTACH) {
 		HideThread(hModule);
